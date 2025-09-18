@@ -4,7 +4,7 @@ import { Calculator, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { MobileNav } from "@/components/mobile-nav"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Logo } from "@/galaxy-calc.png"
+import { Logo } from "@/public/galaxy-calc.png"
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
