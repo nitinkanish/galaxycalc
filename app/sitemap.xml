@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://galaxyinfo.vercel.app/</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/browse</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/browse</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/solar-system-planets</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/solar-system-planets</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/moons-in-space</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/moons-in-space</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/asteroids-in-space</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/asteroids-in-space</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/comets-in-space</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/comets-in-space</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/calculator</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/calculator</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>1.0</priority>
   </url>
   <!-- Added individual calculator pages to sitemap -->
   <url>
-    <loc>https://galaxyinfo.vercel.app/gravitational-force-calculator</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/gravitational-force-calculator</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/orbital-velocity-calculator</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/orbital-velocity-calculator</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/escape-velocity-calculator</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/escape-velocity-calculator</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galaxyinfo.vercel.app/about</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.galaxycalc.com/about</loc>
+    <lastmod>2025-09-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>1.0</priority>
   </url>
 </urlset>
