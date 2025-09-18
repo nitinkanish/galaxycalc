@@ -1,9 +1,10 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Calculator, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { MobileNav } from "@/components/mobile-nav"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
+import { Logo } from "@/galaxy-calc.png"
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -11,7 +12,7 @@ export function Header() {
         <div className="flex items-center space-x-8">
           <Link href="/" className="flex items-center space-x-2">
             <div className="p-1.5 bg-primary rounded-full">
-              <Calculator className="h-5 w-5 text-primary-foreground" />
+              <Image src={Logo} className="h-5" />
             </div>
             <span className="font-bold text-xl">GalaxyCalc</span>
           </Link>
