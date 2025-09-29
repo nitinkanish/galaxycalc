@@ -1,4 +1,6 @@
 import Link from "next/link"
+import Image from "next/image"
+import Logo from "@/public/galaxy-calc.png"
 import { Button } from "@/components/ui/button"
 import { SearchInput } from "@/components/search-input"
 import { ArrowRight, Calculator, Telescope, Orbit, Zap } from "lucide-react"
@@ -10,11 +12,11 @@ export function HeroSection() {
         <div className="text-center space-y-8">
           <div className="space-y-4">
             <div className="flex justify-center mb-6">
-              <div className="p-4 bg-primary/10 rounded-full">
-                <Calculator className="h-12 w-12 text-primary" />
+              <div className="p-4">
+              <Image src={Logo} className="w-24" alt="Galaxy Calculator Logo" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance">GalaxyCalc</h1>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance">Galaxy Calculator</h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance">
               Advanced Space Calculations & Celestial Explorer
             </p>
