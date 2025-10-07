@@ -38,56 +38,77 @@ export async function generateMetadata({ params }: BodyPageProps): Promise<Metad
     const canonicalSlug = getBodySlug(body)
     const canonicalUrl = createCanonicalUrl(`/celestial-bodies/${canonicalSlug}`)
 
-    return {
-      title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbit, Radius, Mass & Data Calculator | GalaxyCalc`,
-    
-      description: `${
-        displayName
-      } is a ${body.bodyType.toLowerCase()} with a mean radius of ${
-        body.meanRadius ? body.meanRadius + " km" : "unknown size"
-      } and a mass of ${
-        body.mass ? body.mass + " kg" : "unknown mass"
-      }. Explore its orbital path, gravity (${body.gravity || "N/A"}), and distance from the Sun (${
-        body.semimajorAxis || "N/A"
-      }) using our interactive orbital calculator and astronomy data explorer.`,
-    
-      keywords: [
-        `${displayName} ${body.bodyType}`,
-        `${displayName} orbit data`,
-        `${displayName} radius`,
-        `${displayName} mass`,
-        `${displayName} gravity`,
-        `${displayName} distance from Sun`,
-        `${displayName} orbital calculator`,
-        "planetary data",
-        "astronomy tools",
-        "space calculator",
-        "GalaxyCalc",
-      ],
-    
-      openGraph: {
-        title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbit, Radius & Space Data | GalaxyCalc`,
-        description: `Discover ${displayName}’s physical and orbital characteristics — radius, mass, gravity, and orbital period — with the GalaxyCalc space data calculator.`,
-        type: "article",
-        url: canonicalUrl,
-        siteName: "GalaxyCalc",
-      },
-    
-      twitter: {
-        card: "summary_large_image",
-        title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbital & Physical Data`,
-        description: `Explore ${displayName}’s detailed ${body.bodyType.toLowerCase()} data, including radius, mass, and orbital mechanics, using GalaxyCalc.`,
-      },
-    
-      alternates: {
-        canonical: canonicalUrl,
-      },
-    
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
+    function formatValue(value, unit = "", precision = 2) {
+  if (value === null || value === undefined || value === "" || Number.isNaN(value)) {
+    return "unknown";
+  }
+
+  // Handle scientific notation cleanly
+  if (typeof value === "number" || !isNaN(Number(value))) {
+    const num = Number(value);
+    return `${num.toExponential(precision)} ${unit}`.trim();
+  }
+
+  // Handle object types like { value: 2.00e+15, unit: "kg" }
+  if (typeof value === "object" && value.value !== undefined) {
+    return `${value.value} ${value.unit || unit}`.trim();
+  }
+
+  // Fallback to string
+  return `${value} ${unit}`.trim();
+}
+
+  return {
+    title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbit, Radius, Mass & Data Calculator | GalaxyCalc`,
+  
+    description: `${
+      displayName
+    } is a ${body.bodyType?.toLowerCase() || "celestial body"} with a mean radius of ${
+      formatValue(body.meanRadius, "km")
+    } and a mass of ${
+      formatValue(body.mass, "kg")
+    }. Explore its orbital path, gravity (${formatValue(body.gravity, "m/s²")}), and semimajor axis (${
+      formatValue(body.semimajorAxis, "km")
+    }) using GalaxyCalc’s interactive space data calculator.`,
+  
+    keywords: [
+      `${displayName} ${body.bodyType}`,
+      `${displayName} orbit data`,
+      `${displayName} radius`,
+      `${displayName} mass`,
+      `${displayName} gravity`,
+      `${displayName} distance from Sun`,
+      `${displayName} orbital calculator`,
+      "planetary data",
+      "astronomy tools",
+      "space calculator",
+      "GalaxyCalc",
+    ],
+  
+    openGraph: {
+      title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbit, Radius & Space Data | GalaxyCalc`,
+      description: `Discover ${displayName}’s physical and orbital characteristics — radius, mass, gravity, and orbital period — with the GalaxyCalc space data calculator.`,
+      type: "article",
+      url: canonicalUrl,
+      siteName: "GalaxyCalc",
+    },
+  
+    twitter: {
+      card: "summary_large_image",
+      title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbital & Physical Data`,
+      description: `Explore ${displayName}’s detailed ${body.bodyType?.toLowerCase() || ""} data, including radius, mass, and orbital mechanics, using GalaxyCalc.`,
+    },
+  
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+
   } catch {
     return {
       title: "Celestial Body Not Found | GalaxyCalc",
