@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Montserrat } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/header"
@@ -8,9 +8,10 @@ import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import "./globals.css"
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 })
 
 export const metadata: Metadata = {
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
   category: "Science & Technology",
   classification: "Educational",
   other: {
-    "theme-color": "#0ea5e9",
+    "theme-color": "#0b3d92",
     "color-scheme": "light dark",
   },
 }
@@ -131,7 +132,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`font-sans ${inter.variable} antialiased`}>
+      <body className={`font-sans ${montserrat.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Suspense fallback={<div>Loading...</div>}>
             <div className="min-h-screen flex flex-col">

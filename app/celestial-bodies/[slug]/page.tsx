@@ -55,13 +55,29 @@ export async function generateMetadata({ params }: BodyPageProps): Promise<Metad
     }
 
   const au = body.semimajorAxis ? (body.semimajorAxis / 149598023).toFixed(2) : null
+  const isJupiter = (displayName.toLowerCase() === "jupiter")
+  
+  // Jupiter-specific keywords
+  const jupiterKeywords = isJupiter ? [
+    "Jupiter orbit distance",
+    "Jupiter radius",
+    "Jupiter distance from Earth",
+    "distance from Jupiter to Earth",
+    "Jupiter's orbit around the Sun",
+    "Jupiter orbit distance from Sun",
+    "Jupiter radius in km",
+    "Jupiter distance from Earth km",
+  ] : []
   
   return {
-    title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Radius, Mass, Orbital Period & Distance from Earth | GalaxyCalc`,
+    title: isJupiter 
+      ? `${displayName}: The Giant Planet — Orbit Distance, Radius & Distance from Earth | GalaxyCalc`
+      : `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Radius, Mass, Orbital Period & Distance from Earth | GalaxyCalc`,
   
     description: `Explore comprehensive data about ${displayName}: discover the ${displayName} radius (${formatValue(body.meanRadius || body.equaRadius, "km")}), ${displayName} mass (${formatValue(body.mass, "kg")}), and ${displayName} orbital period. Learn how far ${displayName} is from Earth and explore its semi-major axis${au ? ` (${au} AU)` : ''} and orbital radius. Complete ${displayName} calculator with radius, mass in kg, and distance measurements.`,
   
     keywords: [
+      ...jupiterKeywords,
       `${displayName} ${body.bodyType}`,
       `${displayName} radius`,
       `Radius of ${displayName}`,
