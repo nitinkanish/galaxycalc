@@ -81,20 +81,15 @@ export function generateSlug(name: string): string {
 }
 
 export function getBodySlug(body: { englishName?: string; name: string; id: string }): string {
-  const name = body.englishName || body.name
-  const slug = generateSlug(name)
-  return slug || body.id // Fallback to ID if slug generation fails
+  // Use ID directly as the slug (e.g., "psyche", "lune", "243-ida")
+  return body.id
 }
 
-export function parseSlug(slug: string): { name: string; isLegacyId: boolean } {
-  // Check if it's a legacy numeric ID
-  if (/^\d+$/.test(slug)) {
-    return { name: slug, isLegacyId: true }
-  }
-
-  // Convert slug back to searchable name
-  const name = slug.replace(/-/g, " ")
-  return { name, isLegacyId: false }
+export function parseSlug(slug: string): { id: string; isLegacyId: boolean } {
+  // The slug is now always the ID
+  // Check if it's a legacy numeric ID (for backwards compatibility)
+  const isLegacyId = /^\d+$/.test(slug)
+  return { id: slug, isLegacyId }
 }
 
 export function createCanonicalUrl(path: string): string {

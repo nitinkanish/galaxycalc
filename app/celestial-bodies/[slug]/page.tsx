@@ -1,11 +1,13 @@
 import { notFound, redirect } from "next/navigation"
 import { Suspense } from "react"
-import { getBody, getAllBodies, findBodyByName } from "@/lib/api"
+import { getBody, getAllBodies } from "@/lib/api"
+import { categorize } from "@/lib/filters"
 import { BodyHeader } from "@/components/body-header"
 import { BodyStats } from "@/components/body-stats"
 import { BodyRelations } from "@/components/body-relations"
 import { BodyDiscovery } from "@/components/body-discovery"
 import { BodyRawData } from "@/components/body-raw-data"
+import { BodySeoContent } from "@/components/body-seo-content"
 import { Skeleton } from "@/components/ui/skeleton"
 import { parseSlug, getBodySlug, createCanonicalUrl } from "@/lib/utils"
 import type { Metadata } from "next"
@@ -18,14 +20,8 @@ interface BodyPageProps {
 
 export async function generateMetadata({ params }: BodyPageProps): Promise<Metadata> {
   try {
-    const { name, isLegacyId } = parseSlug(params.slug)
-    let body
-
-    if (isLegacyId) {
-      body = await getBody(name)
-    } else {
-      body = await findBodyByName(name)
-    }
+    const { id } = parseSlug(params.slug)
+    const body = await getBody(id)
 
     if (!body) {
       return {
@@ -38,44 +34,45 @@ export async function generateMetadata({ params }: BodyPageProps): Promise<Metad
     const canonicalSlug = getBodySlug(body)
     const canonicalUrl = createCanonicalUrl(`/celestial-bodies/${canonicalSlug}`)
 
-    function formatValue(value, unit = "", precision = 2) {
-  if (value === null || value === undefined || value === "" || Number.isNaN(value)) {
-    return "unknown";
-  }
+    function formatValue(value: any, unit = "", precision = 2) {
+      if (value === null || value === undefined || value === "" || Number.isNaN(value)) {
+        return "unknown";
+      }
 
-  // Handle scientific notation cleanly
-  if (typeof value === "number" || !isNaN(Number(value))) {
-    const num = Number(value);
-    return `${num.toExponential(precision)} ${unit}`.trim();
-  }
+      // Handle scientific notation cleanly
+      if (typeof value === "number" || !isNaN(Number(value))) {
+        const num = Number(value);
+        return `${num.toExponential(precision)} ${unit}`.trim();
+      }
 
-  // Handle object types like { value: 2.00e+15, unit: "kg" }
-  if (typeof value === "object" && value.value !== undefined) {
-    return `${value.value} ${value.unit || unit}`.trim();
-  }
+      // Handle object types like { value: 2.00e+15, unit: "kg" }
+      if (typeof value === "object" && value.value !== undefined) {
+        return `${value.value} ${value.unit || unit}`.trim();
+      }
 
-  // Fallback to string
-  return `${value} ${unit}`.trim();
-}
+      // Fallback to string
+      return `${value} ${unit}`.trim();
+    }
 
-  return {
-    title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Orbit, Radius, Mass & Data Calculator | GalaxyCalc`,
+  const au = body.semimajorAxis ? (body.semimajorAxis / 149598023).toFixed(2) : null
   
-    description: `${
-      displayName
-    } is a ${body.bodyType?.toLowerCase() || "celestial body"} with a mean radius of ${
-      formatValue(body.meanRadius, "km")
-    } and a mass of ${
-      formatValue(body.mass, "kg")
-    }. Explore its orbital path, gravity (${formatValue(body.gravity, "m/s²")}), and semimajor axis (${
-      formatValue(body.semimajorAxis, "km")
-    }) using GalaxyCalc’s interactive space data calculator.`,
+  return {
+    title: `${displayName} ${body.bodyType ? `(${body.bodyType})` : ""} — Radius, Mass, Orbital Period & Distance from Earth | GalaxyCalc`,
+  
+    description: `Explore comprehensive data about ${displayName}: discover the ${displayName} radius (${formatValue(body.meanRadius || body.equaRadius, "km")}), ${displayName} mass (${formatValue(body.mass, "kg")}), and ${displayName} orbital period. Learn how far ${displayName} is from Earth and explore its semi-major axis${au ? ` (${au} AU)` : ''} and orbital radius. Complete ${displayName} calculator with radius, mass in kg, and distance measurements.`,
   
     keywords: [
       `${displayName} ${body.bodyType}`,
-      `${displayName} orbit data`,
       `${displayName} radius`,
+      `Radius of ${displayName}`,
+      `${displayName} semi-major axis`,
+      ...(body.semimajorAxis ? [`${displayName} semi-major axis ${(body.semimajorAxis / 149598023).toFixed(1)} AU`] : []),
+      `Orbital radius of ${displayName}`,
       `${displayName} mass`,
+      `Mass of ${displayName} in kg`,
+      `${displayName} orbital period`,
+      `How far is ${displayName} from Earth`,
+      `${displayName} orbit data`,
       `${displayName} gravity`,
       `${displayName} distance from Sun`,
       `${displayName} orbital calculator`,
@@ -130,29 +127,22 @@ export async function generateStaticParams() {
 
 export default async function BodyPage({ params }: BodyPageProps) {
   try {
-    const { name, isLegacyId } = parseSlug(params.slug)
-    let body
-
-    if (isLegacyId) {
-      // Handle legacy numeric ID - redirect to slug URL
-      body = await getBody(name)
-      if (body) {
-        const correctSlug = getBodySlug(body)
-        redirect(`/celestial-bodies/${correctSlug}`)
-      }
-    } else {
-      body = await findBodyByName(name)
-    }
+    const { id } = parseSlug(params.slug)
+    const body = await getBody(id)
 
     if (!body) {
       notFound()
     }
 
-    // Ensure we're using the canonical slug
+    // Ensure we're using the canonical slug (ID)
     const canonicalSlug = getBodySlug(body)
-    if (params.slug !== canonicalSlug && !isLegacyId) {
+    if (params.slug !== canonicalSlug) {
       redirect(`/celestial-bodies/${canonicalSlug}`)
     }
+
+    // Fetch all bodies for related links
+    const { bodies: allBodies } = await getAllBodies()
+    const { planets } = categorize(allBodies)
 
     return (
       <div className="container mx-auto px-4 py-8 space-y-8">
@@ -160,6 +150,10 @@ export default async function BodyPage({ params }: BodyPageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
+            <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+              <BodySeoContent body={body} />
+            </Suspense>
+
             <Suspense fallback={<Skeleton className="h-64 w-full" />}>
               <BodyStats body={body} />
             </Suspense>
@@ -175,7 +169,7 @@ export default async function BodyPage({ params }: BodyPageProps) {
 
           <div className="space-y-8">
             <Suspense fallback={<Skeleton className="h-48 w-full" />}>
-              <BodyRelations body={body} />
+              <BodyRelations body={body} allBodies={allBodies} planets={planets} />
             </Suspense>
           </div>
         </div>

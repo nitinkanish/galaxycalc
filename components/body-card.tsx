@@ -9,7 +9,9 @@ interface BodyCardProps {
 }
 
 export function BodyCard({ body }: BodyCardProps) {
+  console.log(body)
   const displayName = body.englishName || body.name
+  const id = body.id || body.name
   const radius = body.meanRadius ? `${body.meanRadius.toLocaleString()} km` : "—"
   const gravity = body.gravity ? `${body.gravity.toFixed(2)} m/s²` : "—"
   const discoveredBy = body.discoveredBy ? truncateText(body.discoveredBy, 30) : "—"
@@ -18,7 +20,7 @@ export function BodyCard({ body }: BodyCardProps) {
 
   return (
     <Link
-      href={`/celestial-bodies/${bodySlug}`}
+      href={`/celestial-bodies/${id}`}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg"
       aria-label={`View details for ${displayName}, a ${body.bodyType.toLowerCase()}`}
     >
