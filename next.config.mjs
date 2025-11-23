@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['api.le-systeme-solaire.net'],
+    domains: ['api.le-systeme-solaire.net', 'res.cloudinary.com'],
     unoptimized: true,
   },
 }

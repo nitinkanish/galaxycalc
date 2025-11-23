@@ -1,8 +1,12 @@
+'use client'
+
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getBodyTypeColor } from "@/lib/utils"
+import { getModelUrl } from "@/lib/model-mapping"
+import { ModelViewerModal } from "@/components/model-viewer-modal"
 import type { Body } from "@/lib/types"
 
 interface BodyHeaderProps {
@@ -11,6 +15,7 @@ interface BodyHeaderProps {
 
 export function BodyHeader({ body }: BodyHeaderProps) {
   const displayName = body.englishName || body.name
+  const modelUrl = getModelUrl(displayName)
 
   return (
     <div className="space-y-4">
@@ -25,7 +30,15 @@ export function BodyHeader({ body }: BodyHeaderProps) {
 
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="space-y-2 flex-1">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-balance leading-tight">{displayName}</h1>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-balance leading-tight">{displayName}</h1>
+            {modelUrl && (
+              <ModelViewerModal
+                modelUrl={modelUrl}
+                bodyName={displayName}
+              />
+            )}
+          </div>
           {body.alternativeName && (
             <p
               className="text-base sm:text-lg text-muted-foreground"
